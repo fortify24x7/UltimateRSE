@@ -21,16 +21,14 @@ def encrypt(msg):
 
 def auth(secret_key):
 	enkey = "7cad1578879e6aa34393c7b797f72d58bdcdd254f347eb09f640282b3f195f59"
-	try:
-		if encrypt(secret_key) == enkey.decode("hex"):
-			style.urse_out2("Key   ","Thank You")
-			style.urse_out2("System","Installing URSE ULTRA")
-			return True
-		else:
-			int("a")
-	except:
-		style.urse_out2("Key","Failed")
-		return False
+	if encrypt(secret_key) == enkey.decode("hex"):
+		style.urse_out2("Key   ","Thank You")
+		style.urse_out2("System","Installing URSE ULTRA")
+		return True
+	else:
+		int("a")
+	style.urse_out2("Key","Failed")
+	return False
 
 def extract_update(key):
 	if auth(key):
@@ -57,13 +55,14 @@ def extract_update(key):
 
 def check4ultra():
 	if "__donotchange = True" in open("ultra.config").read():
-		c = inp.input("Check For Updates [y/n] ",type=1)
+		c = inp.input(1,"Check For Updates [y/n]")
 		if c == "y":
 			import urllib
 			u = urllib.FancyURLopener()
-			u.retrieve("https://github.com/RussianOtter/UltimateRSE/blob/master/urse.txt?raw=True","urse.enc")
-			key = open("ultra.config").read().split("ultrakey = ")[1].split("\n")[0]
-			extract_update(key)
+			u.retrieve("https://github.com/RussianOtter/UltimateRSE/blob/master/urse.enc?raw=True","urse.enc")
+			f = open("ultra.zip","w")
+			f.write(decrypt(open("urse.enc").read()))
+			f.close()
 		return True
 	elif "ultrakey = None" not in open("ultra.config").read() and "__donotchange = False" in open("ultra.config").read():
 		key = open("ultra.config").read().split("ultrakey = ")[1].split("\n")[0]
