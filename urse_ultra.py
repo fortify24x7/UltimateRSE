@@ -20,7 +20,7 @@ def encrypt(msg):
 	return cipher.encrypt(msg)
 
 def auth(secret_key):
-	enkey = encrypt(secret_key).encode("hex")
+	enkey = "7cad1578879e6aa34393c7b797f72d58bdcdd254f347eb09f640282b3f195f59"
 	try:
 		if encrypt(secret_key) == enkey.decode("hex"):
 			style.urse_out2("Key   ","Thank You")
