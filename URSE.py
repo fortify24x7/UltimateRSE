@@ -35,6 +35,11 @@ import urllib, socket, sys, time, SocketServer, threading, os, random
 import shells.urse_loader as urseload
 import exploits.urse_exploiter as urseexp
 import urse_if as style
+import urse_ultra
+
+active_ultra = urse_ultra.check4ultra()
+if active_ultra:
+	import exploits.dlmanager as dlmgr
 
 def urse_config():
 	for config in open("ultra.config").readlines():
@@ -47,7 +52,10 @@ def urse_logo():
 		import console
 		console.set_color()
 		print
-		console.set_font("Menlo",12.6)
+		if int(os.uname()[4][6]) >= 7:
+			console.set_font("Menlo",14.9)
+		else:
+			console.set_font("Menlo",12.6)
 		print "     Ultimate Remote Shell Execution"
 		lastc = "b"
 		for _ in logo:
@@ -514,7 +522,7 @@ def urse_options(query):
 			except Exception as e:
 				print "[Error Arg]",str(e).replace("\n","")
 				pass
-	if query.startswith("exploit") or query.startswith("launch"):
+	if query.startswith("exploit"):
 		if len(exploit) > 8:
 			try:
 				execfile(exploit,{
@@ -534,6 +542,25 @@ def urse_options(query):
 		style.urse_out2("*","Exploits")
 		urseexp.show_exploits(filter=search, verbose=verbose)
 		print
+	if query.startswith("launch"):
+		if active_ultra:
+			launch = query.split("launch")[1]
+			while 1:
+				if launch.startswith(" "):
+					launch = launch[1:]
+				else:
+					break
+			if launch == "":
+				dlmgr.show_downloads()
+			elif launch == "install":
+				dlmgr.select_download()
+			elif launch == "uninstall":
+				dlmgr.uninstall()
+			elif launch == "exploit":
+				dlmgr.show_downloads()
+				style.urse_out2("Syntax","launch exploit <id> <args> <args> ...")
+			if launch.startswith("exploit "):
+				dlmgr.exec_download(launch[8:])
 
 def down_http():
 	for _ in serv_ack:
