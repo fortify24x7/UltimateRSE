@@ -6,6 +6,11 @@ if sys.platform == "ios":
 else:
 	inp = style.notiOS()
 
+secret_key = open("ultra.config").read().split("ultrakey = ")[1].split("\n")[0]
+if '"' in secret_key:
+	secret_key = eval(secret_key)
+if len(secret_key) < 16:
+	secret_key = "A"*16
 cipher = AES.new(secret_key,AES.MODE_ECB,"ultra")
 
 def decrypt(msg):
