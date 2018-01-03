@@ -8,6 +8,8 @@ else:
 def raw_input2(value="", end="", u=False, c=False):
 	sys.stdout.write(value)
 	data = getpass.getpass("")
+	if data == "\n":
+		data = ""
 	if c:
 		if sys.platform == "ios":
 			console.set_color()
