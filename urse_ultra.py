@@ -37,16 +37,12 @@ def extract_update(key):
 		f.write(setting)
 		f.close()
 		setting = None
-		denc = decrypt(open("urse.enc").read())
-		if "ultra.zip" not in os.listdir("./"):
-			f = open("ultra.zip","a")
-			f.write("")
-			f.close()
-		else:
-			f = open("ultra.zip","w")
-			f.write(denc)
-			f.close()
-		denc = None
+		import urllib
+		u = urllib.FancyURLopener()
+		u.retrieve("https://github.com/RussianOtter/UltimateRSE/blob/master/urse.enc?raw=True","urse.enc")
+		f = open("ultra.zip","w")
+		f.write(decrypt(open("urse.enc").read()))
+		f.close()
 		zip_ref = zipfile.ZipFile("./ultra.zip", "r")
 		zip_ref.extractall("./")
 		zip_ref.close()
@@ -66,6 +62,8 @@ def check4ultra():
 		return True
 	elif "ultrakey = None" not in open("ultra.config").read() and "__donotchange = False" in open("ultra.config").read():
 		key = open("ultra.config").read().split("ultrakey = ")[1].split("\n")[0]
+		if '"' in key:
+			key = eval(key)
 		extract_update(key)
 		return True
 	else:
