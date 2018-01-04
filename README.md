@@ -28,6 +28,15 @@ URSE's main purpose is to help identify and prove exploitation vulnerabilities w
 The main two services `http` and `socket` are used for shell uploads via local commands such as: `curl` or `wget`! These can also be used in combination with certain exploits `(combos)`! All these servers have dynamic files so you can keep the server threaded and change the payload as needed!
 
 
-***Ultra Edition (Paid)***
+Ultra Edition
+=============
 
-Coming soon...
+
+***Commands***
+
+`launch` - Executes options for running downloaded exploits.
+`Variables:`
+
+	-`launch` on its own will show the downloads you have available
+
+  -`exploit exploit_number <arg> <arg> ....` will launch the exploit witu the args you set!
