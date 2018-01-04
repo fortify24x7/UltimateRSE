@@ -44,14 +44,14 @@ def extract_update(key):
 		f.write(decrypt(open("urse.enc").read()))
 		f.close()
 		zip_ref = zipfile.ZipFile("./ultra.zip", "r")
-		zip_ref.extractall("./")
+		zip_ref.extractall("./exploits")
 		zip_ref.close()
 		os.remove("ultra.zip")
 		os.remove("urse.enc")
 
 def check4ultra():
 	if "__donotchange = True" in open("ultra.config").read():
-		c = inp.input(1,"Check For Updates [y/n]")
+		c = inp.input(1,"Check For Updates [y/n]").lower()
 		if c == "y":
 			import urllib
 			u = urllib.FancyURLopener()
@@ -59,6 +59,7 @@ def check4ultra():
 			f = open("ultra.zip","w")
 			f.write(decrypt(open("urse.enc").read()))
 			f.close()
+			extract_update(secret_key)
 		return True
 	elif "ultrakey = None" not in open("ultra.config").read() and "__donotchange = False" in open("ultra.config").read():
 		key = open("ultra.config").read().split("ultrakey = ")[1].split("\n")[0]
